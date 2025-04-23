@@ -22,15 +22,14 @@ const App = () => {
     }, []);
 
     if (loading) {
-        return <div>Hi1</div>
+        return null;
     } else {
         return (
             <div className="min-h-screen flex flex-wrap content-between bg-gray-400">
                 <div className="w-full block">
                     <Header/>
                     <main>
-                        {/* <Outlet></Outlet> */}
-                        main
+                        {/* TODO: <Outlet /> */}
                     </main>
                     <Footer/>
                 </div>

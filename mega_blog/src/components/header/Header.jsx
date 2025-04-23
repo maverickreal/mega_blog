@@ -35,37 +35,39 @@ const Header = () => {
     ];
     const navigate = useNavigate();
 
-    return <header className="py-3 shadow bg-gray-500">
-        <Container>
-            <nav>
-                <div className="mr-4">
-                    <Link to="/">
-                        <Logo width="70px" />
-                    </Link>
-                </div>
-                <ul className="flex ml-auto">
-                    {navItems.map(navItem => {
-                        if (navItem.active) {
-                            return (
-                                <li key={navItem.name}>
-                                    <button onClick={() => navigate(navItem.slug)}>
-                                        {navItem.name}
-                                    </button>
-                                </li>
-                            );
-                        } else {
-                            return null;
-                        }
-                    })}
-                    {authStatus && (
-                        <li>
-                            <LogoutBtn />
-                        </li>
-                    )}
-                </ul>
-            </nav>
-        </Container>
-    </header>
+    return (
+        <header className="py-3 shadow bg-gray-500">
+            <Container>
+                <nav>
+                    <div className="mr-4">
+                        <Link to="/">
+                            <Logo width="70px" />
+                        </Link>
+                    </div>
+                    <ul className="flex ml-auto">
+                        {navItems.map(navItem => {
+                            if (navItem.active) {
+                                return (
+                                    <li key={navItem.name}>
+                                        <button onClick={() => navigate(navItem.slug)}>
+                                            {navItem.name}
+                                        </button>
+                                    </li>
+                                );
+                            } else {
+                                return null;
+                            }
+                        })}
+                        {authStatus && (
+                            <li>
+                                <LogoutBtn />
+                            </li>
+                        )}
+                    </ul>
+                </nav>
+            </Container>
+        </header>
+    );
 };
 
 export default Header;

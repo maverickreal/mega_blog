@@ -9,7 +9,7 @@ import { Home,
          Post,
          AddPost,
          EditPost } from "./pages";
-import { createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
     {
@@ -74,6 +74,6 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root"))
     .render(
         <Provider store={store}>
-            <App />
+            <RouterProvider router={router} />
         </Provider>
     );
