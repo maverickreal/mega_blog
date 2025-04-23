@@ -10,6 +10,7 @@ import { Home,
          AddPost,
          EditPost } from "./pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import "./index.css";
 
 const router = createBrowserRouter([
     {
