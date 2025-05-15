@@ -4,6 +4,7 @@ import authService from "./appwrite/auth";
 import { login } from "./store/authSlice";
 import {Header, Footer} from "./components";
 import "./App.css";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
 
@@ -30,7 +31,7 @@ const App = () => {
                 <div className="w-full block">
                     <Header/>
                     <main>
-                        {/* TODO: <Outlet /> */}
+                        <Outlet />
                     </main>
                     <Footer/>
                 </div>

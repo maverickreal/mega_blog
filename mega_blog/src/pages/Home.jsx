@@ -1,17 +1,29 @@
 import React from "react";
 import appwriteService from "../appwrite/config";
 import { Container, PostCard } from "../components";
+import authService from "../appwrite/auth";
 
 function Home() {
     const [posts, setPosts] = React.useState([]);
+    const [noBlogsMessage, setNoBlogsMessage] = React.useState("Loading ...");
 
     React.useEffect(() => {
-        appwriteService.getPosts()
-            .then(posts => {
-                setPosts(prevPosts => (
-                    posts?.documents || prevPosts
-                ));
-            });
+        authService.account.get()
+            .then(() => {
+                appwriteService.getPosts()
+                    .then(posts => {
+                        setNoBlogsMessage(() => (
+                            posts.total ? "" : "No posts available."
+                        ));
+                        setPosts(prevPosts => (
+                            posts.documents || prevPosts
+                        ));
+                    })
+                    .catch(() => (
+                        setNoBlogsMessage("No posts available.")
+                    ));
+            })
+            .catch(() => setNoBlogsMessage("Login to view blogs."));
     }, []);
 
     if (posts.length === 0) {
@@ -21,7 +33,7 @@ function Home() {
                     <div className="flex flex-wrap">
                         <div className="p-2 w-full">
                             <h1 className="text-2xl font-bold hover:text-gray-500">
-                                Login to read posts
+                                {noBlogsMessage}
                             </h1>
                         </div>
                     </div>
@@ -37,7 +49,7 @@ function Home() {
                             <div key={post.id} className='p-2 w-1/4'>
                                 <PostCard {...post} />
                             </div>
-                        ))} 
+                        ))}
                     </div>
                 </Container>
             </div>

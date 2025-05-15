@@ -7,10 +7,10 @@ function Protected({
     authentication = true
 }) {
     const navigate = useNavigate();
-    const [loader, setLoader] = useState(true);
+    const [loader, setLoader] = React.useState(true);
     const authState = useSelector(state => state.auth.status);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (authState !== authentication) {
             navigate(authentication ? "/login" : "/");
         }

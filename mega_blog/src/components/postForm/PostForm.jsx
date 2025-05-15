@@ -5,7 +5,7 @@ import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-function PostForm() {
+function PostForm({post}) {
     const { register,
         handleSubmit,
         watch,
@@ -19,8 +19,10 @@ function PostForm() {
                 status: post?.status || "active"
             }
         });
+
     const navigate = useNavigate();
-    const userData = useSelector(state => state.user.data);
+    const userData = useSelector(state => state.auth.userData);
+
     const submit = async data => {
         if (post) {
             const file = data.image[0] ? appwriteService.uploadFile(data.image[0]) : null;
@@ -48,6 +50,7 @@ function PostForm() {
             }
         }
     }
+
     const slugTransform = React.useCallback(value => {
         if (!value || typeof (value) !== "string") {
             return "";

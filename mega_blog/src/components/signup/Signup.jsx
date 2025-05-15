@@ -19,12 +19,12 @@ function Signup() {
             let userData = await authService.createAccount(data);
 
             if (userData) {
-                userData = authService.getCurrentUser();
+                userData = await authService.getCurrentUser();
 
                 if (userData) {
                     dispatch(login(userData));
                 }
-                login("/");
+                navigate("/");
             }
         } catch (error) {
             setError(error.message);
