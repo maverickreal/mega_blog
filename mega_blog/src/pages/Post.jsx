@@ -12,7 +12,7 @@ function Post() {
     const userData = useSelector(state => state.auth.userData);
     const isAuthor = post
         && userData
-        && (userData.userId === userData.id);
+        && (userData.userId === userData.$id);
 
     useEffect(() => {
         if (slug) {
@@ -30,7 +30,7 @@ function Post() {
     }, [slug, navigate]);
 
     const deletePost = () => {
-        appwriteService.deletePost(post.id)
+        appwriteService.deletePost(post.$id)
             .then(status => {
                 if (status) {
                     appwriteService.deleteFile(post.featuredImage);
@@ -51,7 +51,7 @@ function Post() {
 
                         {isAuthor && (
                             <div className="absolute right-6 top-6">
-                                <Link to={`/edit-post/${post.id}`}>
+                                <Link to={`/edit-post/${post.$id}`}>
                                     <Button bgColor="bg-green-500" className="mr-3">
                                         Edit
                                     </Button>

@@ -5,7 +5,7 @@ import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-function PostForm({post}) {
+function PostForm({ post }) {
     const { register,
         handleSubmit,
         watch,
@@ -30,22 +30,22 @@ function PostForm({post}) {
             if (file) {
                 appwriteService.deleteFile(post.featuredImage);
             }
-            const dbPost = await appwriteService.updatePost(post.id, {
-                ...data, featuredImage: file ? file.id : undefined
+            const dbPost = await appwriteService.updatePost(post.$id, {
+                ...data, featuredImage: file ? file.$id : undefined
             });
 
             if (dbPost) {
-                navigate(`/post/${dbPost.id}`);
+                navigate(`/post/${dbPost.$id}`);
             }
         } else {
-            const file = appwriteService.uploadFile(data.image[0]);
+            const file = await appwriteService.uploadFile(data.image[0]);
 
             if (file) {
-                data.featuredImage = file.id;
-                const dbPost = await appwriteService.createPost({ ...data, userId: userData.id });
+                data.featuredImage = file.$id;
+                const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
 
                 if (dbPost) {
-                    navigate(`/post/${dbPost.id}`);
+                    navigate(`/post/${dbPost.$id}`);
                 }
             }
         }
@@ -59,15 +59,17 @@ function PostForm({post}) {
         return value
             .trim()
             .toLowerCase()
-            .replace(/^[a-zA-Z\d\s]+/g, "-")
-            .replace(/\s/g, "-");
+            .replace(/[^\w\s-]/g, "")
+            .replace(/\s+/g, "-")
+            .replace(/^-+|-+$/g, "");
     }, []);
 
     React.useEffect(() => {
         const subscription = watch((value, { name }) => {
             if (name === "title") {
-                const transformedSlug = slugTransform(value.title, { shouldValidate: true })
-                setValue("slug", transformedSlug);
+                setValue("slug",
+                    slugTransform(value.title),
+                    { shouldValidate: true });
             }
         });
 
@@ -88,8 +90,9 @@ function PostForm({post}) {
                     className="mb-4"
                     {...register("slug", { required: true })}
                     onInput={e => {
-                        const transformedSlug = slugTransform(e.currentTarget.value);
-                        setValue("slug", transformedSlug, { shouldValidate: true });
+                        setValue("slug",
+                            slugTransform(e.currentTarget.value),
+                            { shouldValidate: true });
                     }}
                 />
                 <RTE label="Content :"

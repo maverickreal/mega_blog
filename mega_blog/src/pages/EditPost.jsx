@@ -1,7 +1,6 @@
 import React from "react";
-import { Container, PostCard } from "../components";
+import { Container } from "../components";
 import appwriteService from "../appwrite/config";
-import { useNavigate, useParams } from "react-router-dom";
 
 function EditPost() {
     const [post, setPost] = React.useState(null);
